@@ -28,14 +28,11 @@ chrome.contextMenus.create({
   title: "Copy as Markdown",
 });
 
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  const commandId = info.menuItemId;
-  console.log("commandId", commandId);
-
+// Unified handler function for both context menu and command events
+async function handleAction(commandId, tab) {
   const title = isJiraTicketPage(tab?.title)
     ? tab?.title.removeJiraSuffix().removeSquareBracketsInTicketNum()
     : tab?.title;
-  console.log("title", title);
 
   if (commandId === "copy-as-branch") {
     const branchName = getFeatureBranchName(toKebabCase(title));
@@ -48,7 +45,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   if (commandId === "copy-as-rich-text") {
     const message = `<a href="${tab?.url}">${title}</a>`;
-
     await chrome.tabs.sendMessage(tab?.id, {
       action: "copy-as-rich-text",
       data: message,
@@ -58,5 +54,23 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (commandId === "copy-as-markdown") {
     const markdown = `[${title}](${tab?.url})`;
     await chrome.tabs.sendMessage(tab?.id, markdown);
+  }
+}
+
+// Listener for context menu clicks
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+  const commandId = info.menuItemId;
+  await handleAction(commandId, tab);
+});
+
+// Listener for keyboard command events
+chrome.commands.onCommand.addListener(async (commandId) => {
+  const [activeTab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+
+  if (activeTab) {
+    await handleAction(commandId, activeTab);
   }
 });

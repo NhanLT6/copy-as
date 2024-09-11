@@ -3,15 +3,23 @@
   "description": "Create branch name base on Jira ticket",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["contextMenus", "activeTab", "scripting"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["scripts/content.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/content.js"
+      ]
     }
   ],
   "action": {
@@ -21,6 +29,20 @@
       "32": "images/branch-32.png",
       "48": "images/branch-48.png",
       "128": "images/branch-128.png"
+    }
+  },
+  "commands": {
+    "copy-as-branch": {
+      "description": "Copy as Branch"
+    },
+    "copy-as-commit-message": {
+      "description": "Copy as Commit message"
+    },
+    "copy-as-rich-text": {
+      "description": "Copy as Rich text"
+    },
+    "copy-as-markdown": {
+      "description": "Copy as Markdown"
     }
   },
   "icons": {
