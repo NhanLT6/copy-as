@@ -1,6 +1,6 @@
 ﻿{
-  "name": "Auto Branch Name",
-  "description": "Create branch name base on Jira ticket",
+  "name": "Copy as",
+  "description": "Copy page titles and URLs in multiple formats - branch names, commit messages, rich text, and markdown",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [

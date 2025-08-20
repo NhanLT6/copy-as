@@ -1,23 +1,30 @@
-# Auto Branch Name extension
+# Copy as - Browser Extension
 
 ## Introduction
 
-This is a simple browser extension that generates a branch name based on title of Jira ticket. It would be useful when you are working on a Jira ticket and want to create a branch with the same name as the ticket.
+This is a versatile browser extension that helps developers copy page titles and URLs in multiple useful formats. Originally designed for Jira tickets, it now works on any web page to generate formatted text for development workflows.
 
 This extension can:
 
-- Generate branch name
-- Copy ticket number and title as Commit message
-- Copy ticket as Markdown link
-- Copy ticket as Rich-text link
+- **Generate branch name** - Creates git branch names in kebab-case format (feature/your-page-title)
+- **Copy as commit message** - Page title formatted for git commit messages
+- **Copy as markdown** - Page title and URL as markdown link `[title](url)`
+- **Copy as rich text** - HTML link format for pasting into rich text editors
+
+## Features
+
+- Works on any web page
+- Special formatting for Jira tickets (removes suffixes and brackets)
+- Context menu integration
+- Keyboard shortcuts support
+- Clipboard API integration
 
 ## How to use this extension
 
 1. Clone this repo to your local machine
 2. Enable Developer mode in your Chromium browser (Chrome or Edge): [Load an unpacked extension in Chrome](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
 3. Load this repo as unpacked extension (find <kbd>Load unpacked</kbd> button)
-4. Right-click anywhere on page and Select "Auto Branch Name" from the context
-   menu to use this extension
+4. Right-click anywhere on a page and select one of the "Copy as" options from the context menu, or use the keyboard shortcuts defined in the extension
 
 ## Supported browsers
 
