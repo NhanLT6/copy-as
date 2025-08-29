@@ -1,12 +1,261 @@
-﻿<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Auto branch name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copy As</title>
+    <style>
+      body {
+        width: 320px;
+        padding: 0;
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f8f9fa;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin: 0 0 4px 0;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .header p {
+        margin: 0;
+        font-size: 13px;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .quick-actions {
+        margin-bottom: 20px;
+      }
+
+      .quick-actions h2 {
+        font-size: 16px;
+        margin: 0 0 12px 0;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .action-grid.five-items {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .action-grid.five-items .action-btn:last-child {
+        grid-column: 2;
+      }
+
+      .action-btn {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        padding: 12px 8px;
+        font-size: 12px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        color: #333;
+      }
+
+      .action-btn:hover {
+        background: #f5f5f5;
+        border-color: #4285f4;
+        color: #4285f4;
+      }
+
+      .action-btn .icon {
+        display: block;
+        margin: 0 auto 6px;
+        width: 18px;
+        height: 18px;
+        opacity: 0.7;
+      }
+
+      .settings-section {
+        border-top: 1px solid #e0e0e0;
+        padding-top: 20px;
+      }
+
+      .settings-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 16px;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.2s;
+        font-size: 14px;
+      }
+
+      .settings-btn:hover {
+        background: #f5f5f5;
+        border-color: #4285f4;
+      }
+
+      .settings-btn .left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .settings-btn .icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.7;
+      }
+
+      .settings-btn .arrow {
+        width: 16px;
+        height: 16px;
+        opacity: 0.5;
+      }
+
+      .usage-hint {
+        background: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 6px;
+        padding: 12px;
+        margin-top: 16px;
+        font-size: 12px;
+        color: #1565c0;
+        line-height: 1.4;
+      }
+
+      .usage-hint strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+    </style>
   </head>
-  <body style="min-width: 250px">
-    Right-click anywhere on page and Select "Auto Branch Name" from the context
-    menu to use this extension
+  <body>
+    <!-- HEADER SECTION: Gradient background with title and description -->
+    <div class="header">
+      <h1>Copy As</h1>
+      <p>Format content for different workflows</p>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="content">
+      <!-- QUICK ACTIONS: 3x2 grid with 5 action buttons -->
+      <div class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-grid five-items">
+          <!-- BUTTON 1: Copy as Branch (feature/branch-name) -->
+          <div class="action-btn" data-action="copy-as-branch">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zM2 15a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"
+              />
+            </svg>
+            Branch
+          </div>
+
+          <!-- BUTTON 2: Copy as Title (formatted page title) -->
+          <div class="action-btn" data-action="copy-as-title">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Title
+          </div>
+
+          <!-- BUTTON 3: Copy as Rich Text (HTML for general use) -->
+          <div class="action-btn" data-action="copy-as-rich-text">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Rich Text
+          </div>
+
+          <!-- BUTTON 4: Copy as Markdown ([title](url)) -->
+          <div class="action-btn" data-action="copy-as-markdown">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Markdown
+          </div>
+
+          <!-- BUTTON 5: Copy as Teams (CF_HTML format for Teams rich previews) -->
+          <div class="action-btn" data-action="copy-as-teams">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Teams
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS SECTION: Single button to open settings page -->
+      <div class="settings-section">
+        <div class="settings-btn" id="settingsBtn">
+          <div class="left">
+            <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <div>
+              <strong>Settings</strong><br />
+              <span style="font-size: 12px; color: #666"
+                >Configure formatting options</span
+              >
+            </div>
+          </div>
+          <svg class="arrow" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- USAGE HINT: Blue box with tips about right-click and shortcuts -->
+      <div class="usage-hint">
+        <strong>Tip:</strong>
+        Right-click on any page to access these functions from the context menu,
+        or use keyboard shortcuts for quick access.
+      </div>
+    </div>
 
     <script src="./popup.js"></script>
   </body>

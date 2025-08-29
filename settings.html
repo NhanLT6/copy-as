@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Copy As - Settings</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .header {
+        background: white;
+        padding: 32px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 32px;
+        border-left: 4px solid #4285f4;
+      }
+
+      .header h1 {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+      }
+
+      .header p {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+
+      .settings-panel {
+        display: grid;
+        gap: 24px;
+      }
+
+      .preview-panel {
+        position: relative;
+      }
+
+      .setting-card {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .setting-card h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0 0 20px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .setting-card .icon {
+        width: 20px;
+        height: 20px;
+        opacity: 0.7;
+      }
+
+      .control-group {
+        margin-bottom: 24px;
+      }
+
+      .control-group:last-child {
+        margin-bottom: 0;
+      }
+
+      .control-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .control-group input,
+      .control-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 8px;
+        font-size: 14px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        background: white;
+      }
+
+      .control-group input:focus,
+      .control-group select:focus {
+        outline: none;
+        border-color: #4285f4;
+        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+      }
+
+      .help-text {
+        font-size: 13px;
+        color: #666;
+        margin-top: 6px;
+        line-height: 1.4;
+      }
+
+      .checkbox-group {
+        margin: 0 0 24px 0;
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: flex-start;
+        cursor: pointer;
+        font-size: 14px;
+        color: #333;
+        padding: 16px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .checkbox-label:first-child {
+        padding-top: 0;
+      }
+
+      .checkbox-label:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .checkbox-label input[type='checkbox'] {
+        margin-right: 12px;
+        margin-top: 2px;
+        width: 18px;
+        height: 18px;
+        accent-color: #4285f4;
+      }
+
+      .checkbox-label .checkbox-text {
+        flex: 1;
+      }
+
+      .preview-section {
+        margin-top: 0;
+      }
+
+      .preview-grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 0;
+      }
+
+      .preview-panel .setting-card {
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+      }
+
+      /* Align the preview section header with settings sections */
+      .preview-section h2 {
+        margin: 0 0 20px 0;
+      }
+
+      .preview-section p {
+        margin-bottom: 20px;
+      }
+
+      .preview-item {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 16px;
+        transition: border-color 0.2s;
+      }
+
+      .preview-item:hover {
+        border-color: #4285f4;
+      }
+
+      .preview-label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 12px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .preview-content {
+        font-family:
+          'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas,
+          'Courier New', monospace;
+        font-size: 13px;
+        color: #212529;
+        word-break: break-all;
+        line-height: 1.5;
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+      }
+
+      .save-section {
+        position: sticky;
+        bottom: 20px;
+        margin-top: 40px;
+      }
+
+      .save-button {
+        background: #4285f4;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+        transition:
+          background-color 0.2s,
+          transform 0.1s;
+        box-shadow: 0 2px 4px rgba(66, 133, 244, 0.3);
+      }
+
+      .save-button:hover {
+        background: #3367d6;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(66, 133, 244, 0.4);
+      }
+
+      .save-button:active {
+        transform: translateY(0);
+      }
+
+      .save-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+
+      @media (max-width: 1024px) {
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 24px;
+        }
+
+        .preview-panel .setting-card {
+          position: static;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 20px 16px;
+        }
+
+        .header,
+        .setting-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- MAIN CONTAINER: Centered content with max width -->
+    <div class="container">
+      <!-- HEADER SECTION: Page title and description -->
+      <div class="header">
+        <h1>Copy As Settings</h1>
+        <p>
+          Configure how the extension formats your content across different
+          platforms and workflows
+        </p>
+      </div>
+
+      <!-- TWO-COLUMN LAYOUT: Settings on left, Preview on right -->
+      <div class="main-content">
+        <!-- LEFT COLUMN: Settings configuration -->
+        <div class="settings-panel">
+          <!-- SECTION 1: Branch Configuration Card -->
+          <div class="setting-card">
+            <h2>
+              <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1zM2 15a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z"
+                />
+              </svg>
+              Branch Configuration
+            </h2>
+
+            <div class="control-group">
+              <label for="branchPrefix">Branch Prefix</label>
+              <input type="text" id="branchPrefix" placeholder="feature/" />
+              <div class="help-text">
+                Prefix for branch names. Common examples: feature/, bugfix/,
+                task/, hotfix/
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2: Title Formatting Card -->
+          <div class="setting-card">
+            <h2>
+              <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Title Formatting
+            </h2>
+
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="removePlatformSuffix" checked />
+                <div class="checkbox-text">
+                  <strong>Remove platform suffixes</strong><br />
+                  <span style="color: #666; font-size: 13px"
+                    >Removes " - Jira", " - Azure DevOps", " - GitHub",
+                    etc.</span
+                  >
+                </div>
+              </label>
+
+              <label class="checkbox-label">
+                <input type="checkbox" id="removeBrackets" />
+                <div class="checkbox-text">
+                  <strong>Remove brackets around ticket numbers</strong><br />
+                  <span style="color: #666; font-size: 13px"
+                    >Converts [PROJ-123] to PROJ-123</span
+                  >
+                </div>
+              </label>
+            </div>
+
+            <div class="control-group">
+              <label for="titlePrefix">Title Prefix</label>
+              <input type="text" id="titlePrefix" placeholder="feat:" />
+              <div class="help-text">
+                Text to add before titles. Examples:<br />
+                <strong>Conventional commits:</strong> feat:, fix:, docs:,
+                refactor:, test:, chore:<br />
+                <strong>Team prefixes:</strong> [FRONTEND], [API], [MOBILE]<br />
+                <strong>Workflow tags:</strong> WIP:, DRAFT:, HOTFIX:
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Live preview -->
+        <div class="preview-panel">
+          <div class="setting-card preview-section">
+            <h2>
+              <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Live Preview
+            </h2>
+            <p style="color: #666; margin-bottom: 20px; font-size: 14px">
+              See how your settings affect each copy format in real-time
+            </p>
+
+            <!-- PREVIEW GRID: Shows all 4 copy formats -->
+            <div class="preview-grid" id="previewGrid">
+              <!-- Content will be generated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAVE SECTION: Save button at bottom -->
+      <div class="save-section">
+        <button class="save-button" id="saveButton">Save Settings</button>
+      </div>
+    </div>
+
+    <script src="settings.js"></script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 ﻿import {
   getFeatureBranchName,
+  getFormattedTitle,
   isJiraTicketPage,
-  toKebabCase,
 } from './scripts/utils.js';
 
 // Import the String prototype extensions - these are added when utils.js is imported
@@ -13,10 +13,10 @@ chrome.contextMenus.create({
   title: 'Copy as Branch',
 });
 
-// Copy as Commit message
+// Copy as Title
 chrome.contextMenus.create({
-  id: 'copy-as-commit-message',
-  title: 'Copy as Commit message',
+  id: 'copy-as-title',
+  title: 'Copy as Title',
 });
 
 // Copy as Rich text
@@ -31,6 +31,32 @@ chrome.contextMenus.create({
   title: 'Copy as Markdown',
 });
 
+// Copy as Teams
+chrome.contextMenus.create({
+  id: 'copy-as-teams',
+  title: 'Copy as Teams',
+});
+
+// Function to send message to tab with error handling and content script injection
+async function sendMessageToTab(tabId, message) {
+  try {
+    // First, try to send the message
+    await chrome.tabs.sendMessage(tabId, message);
+  } catch {
+    // If it fails, try to inject the content script and then send message
+    await chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      files: ['scripts/content.js'],
+    });
+
+    // Wait a bit for the content script to initialize and gain user activation context
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // Try sending message again
+    await chrome.tabs.sendMessage(tabId, message);
+  }
+}
+
 // Unified handler function for both context menu and command events
 async function handleAction(commandId, tab) {
   try {
@@ -39,33 +65,46 @@ async function handleAction(commandId, tab) {
       return;
     }
 
-    const title = isJiraTicketPage(tab.title)
-      ? tab.title.removeJiraSuffix().removeSquareBracketsInTicketNum()
-      : tab.title;
-
     if (commandId === 'copy-as-branch') {
-      const branchName = getFeatureBranchName(toKebabCase(title));
-      await chrome.tabs.sendMessage(tab.id, branchName);
+      // For branch names, use the legacy logic to avoid breaking existing workflows
+      const title = isJiraTicketPage(tab.title)
+        ? tab.title.removeJiraSuffix().removeSquareBracketsInTicketNum()
+        : tab.title;
+      const branchName = await getFeatureBranchName(title);
+      await sendMessageToTab(tab.id, branchName);
     }
 
-    if (commandId === 'copy-as-commit-message') {
-      await chrome.tabs.sendMessage(tab.id, title);
+    if (commandId === 'copy-as-title') {
+      const formattedTitle = await getFormattedTitle(tab.title);
+      await sendMessageToTab(tab.id, formattedTitle);
     }
 
     if (commandId === 'copy-as-rich-text') {
-      const message = `<a href="${tab.url}">${title}</a>`;
-      await chrome.tabs.sendMessage(tab.id, {
+      const formattedTitle = await getFormattedTitle(tab.title);
+      const message = `<a href="${tab.url}">${formattedTitle}</a>`;
+      await sendMessageToTab(tab.id, {
         action: 'copy-as-rich-text',
         data: message,
       });
     }
 
     if (commandId === 'copy-as-markdown') {
-      const markdown = `[${title}](${tab.url})`;
-      await chrome.tabs.sendMessage(tab.id, markdown);
+      const formattedTitle = await getFormattedTitle(tab.title);
+      const markdown = `[${formattedTitle}](${tab.url})`;
+      await sendMessageToTab(tab.id, markdown);
+    }
+
+    if (commandId === 'copy-as-teams') {
+      const formattedTitle = await getFormattedTitle(tab.title);
+      const htmlMessage = `<a href="${tab.url}">${formattedTitle}</a>`;
+      await sendMessageToTab(tab.id, {
+        action: 'copy-as-teams',
+        data: htmlMessage,
+      });
     }
   } catch (error) {
-    console.error('Error in handleAction:', error);
+    // Silently handle errors to avoid console spam
+    void error;
   }
 }
 
@@ -75,7 +114,8 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const commandId = info.menuItemId;
     await handleAction(commandId, tab);
   } catch (error) {
-    console.error('Error in context menu handler:', error);
+    // Silently handle errors to avoid console spam
+    void error;
   }
 });
 
@@ -91,6 +131,7 @@ chrome.commands.onCommand.addListener(async (commandId) => {
       await handleAction(commandId, activeTab);
     }
   } catch (error) {
-    console.error('Error in command handler:', error);
+    // Silently handle errors to avoid console spam
+    void error;
   }
 });

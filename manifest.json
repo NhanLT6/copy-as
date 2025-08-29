@@ -1,12 +1,14 @@
 ﻿{
   "name": "Copy as",
   "description": "Copy page titles and URLs in multiple formats - branch names, commit messages, rich text, and markdown",
-  "version": "1.0",
+  "version": "2.0.2",
   "manifest_version": 3,
   "permissions": [
     "contextMenus",
     "activeTab",
-    "scripting"
+    "scripting",
+    "storage",
+    "clipboardWrite"
   ],
   "background": {
     "service_worker": "background.js",
@@ -14,41 +16,44 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "scripts/content.js"
-      ]
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"]
     }
   ],
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "images/branch-16.png",
-      "32": "images/branch-32.png",
-      "48": "images/branch-48.png",
-      "128": "images/branch-128.png"
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
     }
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
   },
   "commands": {
     "copy-as-branch": {
       "description": "Copy as Branch"
     },
-    "copy-as-commit-message": {
-      "description": "Copy as Commit message"
+    "copy-as-title": {
+      "description": "Copy as Title"
     },
     "copy-as-rich-text": {
       "description": "Copy as Rich text"
     },
     "copy-as-markdown": {
       "description": "Copy as Markdown"
+    },
+    "copy-as-teams": {
+      "description": "Copy as Teams"
     }
   },
   "icons": {
-    "16": "images/branch-16.png",
-    "32": "images/branch-32.png",
-    "48": "images/branch-48.png",
-    "128": "images/branch-128.png"
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
   }
 }
